@@ -1,0 +1,32 @@
+{
+  "name": "cordova-plugin-share",
+  "version": "0.1.5",
+  "description": "Cordova Plugin for Android to access intent",
+  "cordova": {
+    "id": "net.sgj0.cordova.plugin.share",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sgj0/cordova-plugin-share"
+  },
+  "keywords": [
+    "cordova",
+    "share",
+    "send",
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "scripts": {
+    "prettier": "prettier --write ."
+  },
+  "devDependencies": {
+    "prettier": "^3.3.2"
+  },
+  "author": "markmarijnissen",
+  "license": "MIT"
+}

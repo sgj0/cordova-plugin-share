@@ -1,13 +1,13 @@
-module.exports = function(text,title,mimetype,success,error){
-  if(typeof text !== "string") {
+module.exports = function (text, title, mimetype, success, error) {
+  if (typeof text !== "string") {
     text = "";
   }
-  if(typeof title !== "string") {
+  if (typeof title !== "string") {
     title = "Share";
   }
-  if(typeof mimetype !== "string") {
+  if (typeof mimetype !== "string") {
     mimetype = "text/plain";
   }
-  cordova.exec(success,error,"Share","share",[text,title,mimetype]);
+  cordova.exec(success, error, "Share", "share", [text, title, mimetype]);
   return true;
 };
