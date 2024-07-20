@@ -3,11 +3,13 @@
   xmlns="http://apache.org/cordova/ns/plugins/1.0"
   xmlns:android="http://schemas.android.com/apk/res/android"
   id="net.sgj0.cordova.plugin.share"
-  version="0.1.1"
+  version="0.1.6"
 >
-    <name>Share</name>
+	<name>Share</name>
 	<description>Share</description>
 	<license>Apache 2.0</license>
+	<repo>https://github.com/sgj0/cordova-plugin-share</repo>
+	<issue>https://github.com/sgj0/cordova-plugin-share/issues</issue>
 	<keywords>share</keywords>
     <js-module src="www/share.js" name="Share">
 		<clobbers target="window.navigator.share" />
