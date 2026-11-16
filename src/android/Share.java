@@ -5,7 +5,6 @@ import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * This class echoes a string called from JavaScript.
@@ -18,10 +17,10 @@ public class Share extends CordovaPlugin {
     JSONArray args,
     CallbackContext callbackContext
   ) throws JSONException {
-    if (action.equals("share")) {
-      String text = args.getString(0);
-      String title = args.getString(1);
-      String mimetype = args.getString(2);
+    if ("share".equals(action)) {
+      String text = args.optString(0, "");
+      String title = args.optString(1, "Share");
+      String mimetype = args.optString(2, "text/plain");
       this.share(text, title, mimetype, callbackContext);
       return true;
     }
@@ -34,17 +33,29 @@ public class Share extends CordovaPlugin {
     String mimetype,
     CallbackContext callbackContext
   ) {
-    try {
-      Intent sendIntent = new Intent();
-      sendIntent.setAction(Intent.ACTION_SEND);
-      sendIntent.putExtra(Intent.EXTRA_TEXT, text);
-      sendIntent.setType(mimetype);
-      cordova
-        .getActivity()
-        .startActivity(Intent.createChooser(sendIntent, title));
-      callbackContext.success();
-    } catch (Error e) {
-      callbackContext.error(e.getMessage());
+    if (text == null || text.isEmpty()) {
+      callbackContext.error("Empty text cannot be shared.");
+      return;
     }
+
+    cordova.getActivity().runOnUiThread(() -> {
+      try {
+        Intent sendIntent = new Intent(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, text);
+        if (title != null && !title.isEmpty()) {
+          sendIntent.putExtra(Intent.EXTRA_TITLE, title);
+          sendIntent.putExtra(Intent.EXTRA_SUBJECT, title);
+        }
+        sendIntent.setType(
+          mimetype != null && !mimetype.isEmpty() ? mimetype : "text/plain"
+        );
+        cordova
+          .getActivity()
+          .startActivity(Intent.createChooser(sendIntent, title));
+        callbackContext.success();
+      } catch (Exception e) {
+        callbackContext.error(e.getMessage());
+      }
+    });
   }
 }

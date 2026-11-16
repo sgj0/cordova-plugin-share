@@ -13,8 +13,8 @@ In your phonegap/cordova project, type:
 `navigator.share(text,title,mimetype)`
 
 - text: Text to share, i.e. "Incredible plugin"
-- title: Title of popup, i.e. "Share this quote" (android only, default: "Share")
-- mimetype: Mimetype, i.e. "image/jpeg" (android only, default: "plain/text")
+- title: Title of popup, i.e. "Share this quote" (default: "Share")
+- mimetype: Mimetype, i.e. "image/jpeg" (android only, default: "text/plain")
 
 ### More info
 

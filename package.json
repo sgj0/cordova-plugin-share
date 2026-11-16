@@ -1,7 +1,7 @@
 {
   "name": "cordova-plugin-share",
-  "version": "0.1.6",
-  "description": "Cordova Plugin for Android to access intent",
+  "version": "0.1.7",
+  "description": "Cordova Plugin to open native share popup in Android and iOS",
   "cordova": {
     "id": "net.sgj0.cordova.plugin.share",
     "platforms": [

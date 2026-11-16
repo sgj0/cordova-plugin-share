@@ -5,28 +5,38 @@
 
 - (void)share:(CDVInvokedUrlCommand*)command
 {
-    CDVPluginResult* pluginResult = nil;
-    NSString* text = [command.arguments objectAtIndex:0];
+    NSString* text = [command argumentAtIndex:0 withDefault:nil andClass:[NSString class]];
+    NSString* title = [command argumentAtIndex:1 withDefault:nil andClass:[NSString class]];
 
-    if (text != nil && [text length] > 0) {
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-        NSArray* dataToShare = @[text];  // ...or whatever pieces of data you want to share.
-        
+    if (text == nil || [text length] == 0) {
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
+                                                          messageAsString:@"Empty text cannot be shared."];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        return;
+    }
+
+    dispatch_async(dispatch_get_main_queue(), ^{
         UIActivityViewController* activityViewController =
-        [[UIActivityViewController alloc] initWithActivityItems:dataToShare
-                                          applicationActivities:nil];
+            [[UIActivityViewController alloc] initWithActivityItems:@[text]
+                                              applicationActivities:nil];
 
-        // fix crash on iOS8
-        if (IsAtLeastiOSVersion(@"8.0")) {
-            activityViewController.popoverPresentationController.sourceView = self.webView;
+        if (title != nil && [title length] > 0) {
+            [activityViewController setValue:title forKey:@"subject"];
         }
 
-        [self.viewController presentViewController:activityViewController animated:YES completion:^{}];
-    } else {
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
-    }
-    
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        if (activityViewController.popoverPresentationController != nil) {
+            UIView* sourceView = self.webView;
+            activityViewController.popoverPresentationController.sourceView = sourceView;
+            activityViewController.popoverPresentationController.sourceRect =
+                CGRectMake(CGRectGetMidX(sourceView.bounds), CGRectGetMidY(sourceView.bounds), 0, 0);
+            activityViewController.popoverPresentationController.permittedArrowDirections = 0;
+        }
+
+        [self.viewController presentViewController:activityViewController animated:YES completion:^{
+            CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }];
+    });
 }
 
 @end

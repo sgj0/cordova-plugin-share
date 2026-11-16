@@ -3,11 +3,11 @@
   xmlns="http://apache.org/cordova/ns/plugins/1.0"
   xmlns:android="http://schemas.android.com/apk/res/android"
   id="net.sgj0.cordova.plugin.share"
-  version="0.1.6"
+  version="0.1.7"
 >
 	<name>Share</name>
-	<description>Share</description>
-	<license>Apache 2.0</license>
+	<description>Cordova Plugin to open native share popup in Android and iOS</description>
+	<license>MIT</license>
 	<repo>https://github.com/sgj0/cordova-plugin-share</repo>
 	<issue>https://github.com/sgj0/cordova-plugin-share/issues</issue>
 	<keywords>share</keywords>
